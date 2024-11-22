@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using st10383430_PROG6212_POE.Data;
+using st10383430_PROG6212_POE.Hubs;
 using st10383430_PROG6212_POE.Models;
 
 namespace st10383430_PROG6212_POE.Controllers
@@ -7,6 +9,15 @@ namespace st10383430_PROG6212_POE.Controllers
     public class ClaimsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        
+        private readonly IHubContext<ClaimStatusHub> _hubContext;
+
+        public ClaimsController(ApplicationDbContext context, IHubContext<ClaimStatusHub> hubContext)
+        {
+            _context = context;
+            _hubContext = hubContext;
+        }
+
 
         public ClaimsController(ApplicationDbContext context)
         {
@@ -60,16 +71,19 @@ namespace st10383430_PROG6212_POE.Controllers
         }
 
         [HttpPost]
-        public IActionResult Approve(int id)
+        public async Task<IActionResult> Approve(int id)
         {
             var claim = _context.Claims.Find(id);
             if (claim != null)
             {
                 claim.Status = "Approved";
                 _context.SaveChanges();
+
+                await _hubContext.Clients.All.SendAsync("StatusUpdated", claim.ClaimID, claim.Status);
             }
             return RedirectToAction("Verify");
         }
+
 
         [HttpPost]
         public IActionResult Reject(int id)
@@ -82,6 +96,8 @@ namespace st10383430_PROG6212_POE.Controllers
             }
             return RedirectToAction("Verify");
         }
+
+
 
     }
 
