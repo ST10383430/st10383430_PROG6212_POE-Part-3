@@ -1,0 +1,12 @@
+﻿@model st10383430_PROG6212_POE.Models.Claim
+
+<h2>Submit a Claim</h2>
+<form asp-action="Submit" method="post" enctype="multipart/form-data">
+    <label>Hours Worked</label>
+    <input asp-for="HoursWorked" type="number" required />
+    <label>Hourly Rate</label>
+    <input asp-for="HourlyRate" type="number" required />
+    <label>Upload Supporting Document</label>
+    <input type="file" name="UploadedFile" accept=".pdf,.docx,.xlsx" required />
+    <button type="submit">Submit</button>
+</form>

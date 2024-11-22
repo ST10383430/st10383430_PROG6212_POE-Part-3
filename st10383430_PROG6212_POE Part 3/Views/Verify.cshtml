@@ -1,0 +1,47 @@
+﻿@model IEnumerable<st10383430_PROG6212_POE.Models.Claim>
+
+<h2>Pending Claims</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Hours Worked</th>
+            <th>Hourly Rate</th>
+            <th>Total Payment</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.HourlyRate</td>
+                <td>@claim.TotalPayment</td>
+                <td>
+                    <form asp-action="Approve" method="post">
+                        <input type="hidden" name="id" value="@claim.ClaimID" />
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form asp-action="Reject" method="post">
+                        <input type="hidden" name="id" value="@claim.ClaimID" />
+                        <button type="submit">Reject</button>
+                    </form>
+                </td>
+                //show uploaded files
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.UploadedFilePath))
+                    {
+                        <a href="@claim.UploadedFilePath" target="_blank">View Document</a>
+                    }
+                    else
+                    {
+                        <span>No Document</span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
