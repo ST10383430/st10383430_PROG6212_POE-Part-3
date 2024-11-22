@@ -97,6 +97,21 @@ namespace st10383430_PROG6212_POE.Controllers
             return RedirectToAction("Verify");
         }
 
+        public IActionResult Report(DateTime? startDate, DateTime? endDate, string status)
+        {
+            var claims = _context.Claims.AsQueryable();
+
+            if (startDate.HasValue)
+                claims = claims.Where(c => c.SubmissionDate >= startDate.Value);
+
+            if (endDate.HasValue)
+                claims = claims.Where(c => c.SubmissionDate <= endDate.Value);
+
+            if (!string.IsNullOrEmpty(status))
+                claims = claims.Where(c => c.Status == status);
+
+            return View(claims.ToList());
+        }
 
 
     }

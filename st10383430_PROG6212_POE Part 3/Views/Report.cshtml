@@ -1,0 +1,36 @@
+﻿@model IEnumerable<st10383430_PROG6212_POE.Models.Claim>
+
+<h2>Claims Report</h2>
+<form method="get">
+    <label>Start Date</label>
+    <input type="date" name="startDate" />
+    <label>End Date</label>
+    <input type="date" name="endDate" />
+    <label>Status</label>
+    <select name="status">
+        <option value="">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Lecturer</th>
+            <th>Hours Worked</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.Lecturer.Name</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
