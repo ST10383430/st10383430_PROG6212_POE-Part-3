@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using st10383430_PROG6212_POE.Data;
+using st10383430_PROG6212_POE.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,9 @@ if (!app.Environment.IsDevelopment())
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+app.MapHub<ClaimStatusHub>("/claimStatusHub");
 
 
 app.UseHttpsRedirection();
