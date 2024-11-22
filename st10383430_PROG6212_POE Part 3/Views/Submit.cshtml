@@ -1,13 +1,28 @@
 ﻿@model st10383430_PROG6212_POE.Models.Claim
 
-<h2>Submit a Claim</h2>
-<form asp-action="Submit" method="post" enctype="multipart/form-data">
-    <label>Hours Worked</label>
-    <input asp-for="HoursWorked" type="number" required />
-    <label>Hourly Rate</label>
-    <input asp-for="HourlyRate" type="number" required />
-    <label>Upload Supporting Document</label>
-    <input type="file" name="UploadedFile" accept=".pdf,.docx,.xlsx" required />
+<form asp-action="SubmitClaim">
+    <label>Hours Worked:</label>
+    <input type="number" id="HoursWorked" name="HoursWorked" required />
+
+    <label>Hourly Rate:</label>
+    <input type="number" id="HourlyRate" name="HourlyRate" required />
+
+    <label>Total Payment:</label>
+    <input type="text" id="TotalAmount" readonly />
+
+    <label>Notes:</label>
+    <textarea name="Notes"></textarea>
+
     <button type="submit">Submit</button>
-    <p>Current Status: Pending</p>
 </form>
+
+<script>
+    document.getElementById("HoursWorked").addEventListener("input", calculateTotal);
+    document.getElementById("HourlyRate").addEventListener("input", calculateTotal);
+
+    function calculateTotal() {
+        const hours = parseFloat(document.getElementById("HoursWorked").value || 0);
+        const rate = parseFloat(document.getElementById("HourlyRate").value || 0);
+        document.getElementById("TotalAmount").value = (hours * rate).toFixed(2);
+    }
+</script>
