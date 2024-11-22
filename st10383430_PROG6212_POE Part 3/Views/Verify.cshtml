@@ -27,6 +27,8 @@
                         <button type="submit">Reject</button>
                     </form>
                 </td>
+
+
                 //show uploaded files
                 <td>
                     @if (!string.IsNullOrEmpty(claim.UploadedFilePath))
@@ -38,6 +40,9 @@
                         <span>No Document</span>
                     }
                 </td>
+
+                <td>@claim.Status</td>
+
 
             </tr>
         }
